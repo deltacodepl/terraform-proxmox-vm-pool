@@ -47,8 +47,8 @@ EOF
 }
 
 variable "cluster_name" {
-  default     = "k3s"
   type        = string
+  default     = "dev_cluster"
   description = "Name of the cluster used for prefixing cluster components (ie nodes)."
 }
 
@@ -80,9 +80,9 @@ variable "support_node_settings" {
     storage_type   = optional(string, "scsi"),
     storage_id     = optional(string, "local-lvm"),
     disk_size      = optional(string, "20G"),
-    user           = optional(string, "k3s"),
-    db_name        = optional(string, "k3s"),
-    db_user        = optional(string, "k3s"),
+    user           = optional(string, "cluster"),
+    db_name        = optional(string, "cluster"),
+    db_user        = optional(string, "cluster"),
     network_bridge = optional(string, "vmbr0"),
     network_tag    = optional(number, -1),
   })
@@ -90,7 +90,7 @@ variable "support_node_settings" {
 
 variable "master_nodes_count" {
   description = "Number of master nodes."
-  default     = 2
+  default     = 3
   type        = number
 }
 
@@ -102,7 +102,7 @@ variable "master_node_settings" {
     storage_type   = optional(string, "scsi"),
     storage_id     = optional(string, "local-lvm"),
     disk_size      = optional(string, "20G"),
-    user           = optional(string, "k3s"),
+    user           = optional(string, "cluster"),
     network_bridge = optional(string, "vmbr0"),
     network_tag    = optional(number, -1),
   })
@@ -124,7 +124,7 @@ variable "node_pools" {
     storage_type = optional(string, "scsi"),
     storage_id   = optional(string, "local-lvm"),
     disk_size    = optional(string, "20G"),
-    user         = optional(string, "k3s"),
+    user         = optional(string, "cluster"),
     network_tag  = optional(number, -1),
 
     template = optional(string),
@@ -135,12 +135,6 @@ variable "node_pools" {
 
 variable "api_hostnames" {
   description = "Alternative hostnames for the API server."
-  type        = list(string)
-  default     = []
-}
-
-variable "k3s_disable_components" {
-  description = "List of components to disable. Ref: https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/#kubernetes-components"
   type        = list(string)
   default     = []
 }

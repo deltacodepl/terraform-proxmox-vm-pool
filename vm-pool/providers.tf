@@ -1,14 +1,14 @@
 terraform {
-  required_version = ">= 1.3.0"
+  required_version = ">= 1.3"
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"
-      version = ">= 2.9.3"
+      version = ">= 2.9"
     }
 
     macaddress = {
       source  = "ivoronin/macaddress"
-      version = "0.3.0"
+      version = ">= 0.3"
     }
   }
 }
