@@ -11,7 +11,7 @@ variable "authorized_keys_file" {
 variable "private_key" {
   description = "Path to file containing private SSH key for remoting into nodes. The corresponding public key must be found in authorized_keys_file."
   type        = string
-  default     = "~/.ssh/id_rsa"
+  default     = "~/.ssh/id_rsa_ko"
 }
 
 variable "network_gateway" {
@@ -48,7 +48,7 @@ EOF
 
 variable "cluster_name" {
   type        = string
-  default     = "dev_cluster"
+  default     = "dev-cluster"
   description = "Name of the cluster used for prefixing cluster components (ie nodes)."
 }
 
@@ -72,21 +72,21 @@ variable "onboot" {
   default = true
 }
 
-variable "support_node_settings" {
-  type = object({
-    cores          = optional(number, 2),
-    sockets        = optional(number, 1),
-    memory         = optional(number, 4096),
-    storage_type   = optional(string, "scsi"),
-    storage_id     = optional(string, "local-lvm"),
-    disk_size      = optional(string, "20G"),
-    user           = optional(string, "cluster"),
-    db_name        = optional(string, "cluster"),
-    db_user        = optional(string, "cluster"),
-    network_bridge = optional(string, "vmbr0"),
-    network_tag    = optional(number, -1),
-  })
-}
+# variable "support_node_settings" {
+#   type = object({
+#     cores          = optional(number, 2),
+#     sockets        = optional(number, 1),
+#     memory         = optional(number, 4096),
+#     storage_type   = optional(string, "scsi"),
+#     storage_id     = optional(string, "local-lvm"),
+#     disk_size      = optional(string, "20G"),
+#     user           = optional(string, "cluster"),
+#     db_name        = optional(string, "cluster"),
+#     db_user        = optional(string, "cluster"),
+#     network_bridge = optional(string, "vmbr0"),
+#     network_tag    = optional(number, -1),
+#   })
+# }
 
 variable "master_nodes_count" {
   description = "Number of master nodes."
@@ -102,6 +102,7 @@ variable "master_node_settings" {
     storage_type   = optional(string, "scsi"),
     storage_id     = optional(string, "local-lvm"),
     disk_size      = optional(string, "20G"),
+    vm_start_id    = optional(string, "100")
     user           = optional(string, "cluster"),
     network_bridge = optional(string, "vmbr0"),
     network_tag    = optional(number, -1),
@@ -120,10 +121,11 @@ variable "node_pools" {
 
     cores        = optional(number, 2),
     sockets      = optional(number, 1),
-    memory       = optional(number, 4096),
+    memory       = optional(number, 2048),
     storage_type = optional(string, "scsi"),
     storage_id   = optional(string, "local-lvm"),
     disk_size    = optional(string, "20G"),
+    vm_start_id  = optional(string, "120")
     user         = optional(string, "cluster"),
     network_tag  = optional(number, -1),
 

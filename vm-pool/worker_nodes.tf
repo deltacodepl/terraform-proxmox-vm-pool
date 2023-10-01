@@ -17,6 +17,7 @@ locals {
         storage_type   = pool.storage_type
         storage_id     = pool.storage_id
         disk_size      = pool.disk_size
+        vm_start_id    = pool.vm_start_id
         user           = pool.user
         template       = coalesce(pool.template, var.node_template)
         network_bridge = pool.network_bridge
@@ -36,7 +37,6 @@ locals {
 
 resource "proxmox_vm_qemu" "k3s-worker" {
   depends_on = [
-    proxmox_vm_qemu.k3s-support,
     proxmox_vm_qemu.k3s-master,
   ]
 
@@ -44,7 +44,7 @@ resource "proxmox_vm_qemu" "k3s-worker" {
 
   target_node = var.proxmox_node
   name        = "${var.cluster_name}-${each.key}"
-
+  vmid        =  each.value.vm_start_id + each.value.i
   clone = each.value.template
 
   pool = var.proxmox_resource_pool
@@ -54,7 +54,7 @@ resource "proxmox_vm_qemu" "k3s-worker" {
   sockets = each.value.sockets
   memory  = each.value.memory
 
-  agent = 1
+  agent = 0
   onboot = var.onboot
 
   disk {
@@ -93,27 +93,27 @@ resource "proxmox_vm_qemu" "k3s-worker" {
 
   nameserver = var.nameserver
 
-  connection {
-    type        = "ssh"
-    user        = each.value.user
-    host        = each.value.ip
-    private_key = file(var.private_key)
-  }
+  # connection {
+  #   type        = "ssh"
+  #   user        = each.value.user
+  #   host        = each.value.ip
+  #   private_key = file(var.private_key)
+  # }
 
-  provisioner "remote-exec" {
-    inline = [
-      templatefile("${path.module}/scripts/install-k3s-server.sh.tftpl", {
-        mode         = "agent"
-        tokens       = [random_password.k3s-server-token.result]
-        alt_names    = []
-        disable      = []
-        server_hosts = ["https://${local.support_node_ip}:6443"]
-        node_taints  = each.value.taints
-        datastores   = []
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     templatefile("${path.module}/scripts/install-k3s-server.sh.tftpl", {
+  #       mode         = "agent"
+  #       tokens       = [random_password.k3s-server-token.result]
+  #       alt_names    = []
+  #       disable      = []
+  #       server_hosts = ["https://${local.support_node_ip}:6443"]
+  #       node_taints  = each.value.taints
+  #       datastores   = []
 
-        http_proxy  = var.http_proxy
-      })
-    ]
-  }
+  #       http_proxy  = var.http_proxy
+  #     })
+  #   ]
+  # }
 
 }
