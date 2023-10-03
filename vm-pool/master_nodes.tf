@@ -33,7 +33,7 @@ resource "proxmox_vm_qemu" "k3s-master" {
   sockets = local.master_node_settings.sockets
   memory  = local.master_node_settings.memory
 
-  agent = 0
+  agent = 1
   onboot = var.onboot
 
   disk {

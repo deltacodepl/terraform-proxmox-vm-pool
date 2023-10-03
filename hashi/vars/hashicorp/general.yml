@@ -1,0 +1,8 @@
+---
+hashicorp_product_selection:
+  - consul
+  - nomad
+  - vault
+
+hashicorp_datacenter_name: "velp"
+token_directory: "~/hashi-tokens"

@@ -1,0 +1,22 @@
+---
+atcomputing_user: "atcomputing"
+docker_users:
+  - "{{ atcomputing_user }}"
+
+pip_install_packages:
+  - name: docker
+  - name: hvac
+  - name: python-nomad
+
+basic_apt_packages:
+  - atop
+  - curl
+  - jq
+  - lynx
+  - tree
+  - unattended-upgrades
+  - vim
+
+timezone: "Europe/Amsterdam"
+
+demo_fqdn: "demo.atcomputing.local"

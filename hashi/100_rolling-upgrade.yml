@@ -1,0 +1,40 @@
+---
+- name: "AT Computing - HashiCorp Demo - Rolling upgrade"
+  hosts: servers
+  become: true
+  serial: 1
+
+  vars_files:
+    - vars/hashicorp/general.yml
+    - vars/hashicorp/vault.yml
+    - vars/hashicorp/ssl.yml
+
+  vars:
+    product_name: "consul"
+    product_port: 8500
+    product_delay: 10
+
+  tasks:
+    - name: Update apt cache.
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Update the binary.
+      ansible.builtin.apt:
+        name: "{{ product_name }}"
+        state: present
+      notify:
+        - Restart service
+        - Wait for it
+
+  handlers:
+    - name: Restart service
+      ansible.builtin.service:
+        name: "{{ product_name }}"
+        state: restarted
+
+    - name: Wait for it
+      ansible.builtin.wait_for:
+        port: "{{ product_port }}"
+        delay: "{{ product_delay }}"
