@@ -48,7 +48,7 @@ EOF
 
 variable "cluster_name" {
   type        = string
-  default     = "dev-cluster"
+  default     = "nomad"
   description = "Name of the cluster used for prefixing cluster components (ie nodes)."
 }
 
@@ -102,8 +102,8 @@ variable "master_node_settings" {
     storage_type   = optional(string, "scsi"),
     storage_id     = optional(string, "local-lvm"),
     disk_size      = optional(string, "20G"),
-    vm_start_id    = optional(string, "100")
-    user           = optional(string, "cluster"),
+    vm_start_id    = optional(string, "220")
+    user           = optional(string, "nomad"),
     network_bridge = optional(string, "vmbr0"),
     network_tag    = optional(number, -1),
   })
@@ -121,12 +121,12 @@ variable "node_pools" {
 
     cores        = optional(number, 2),
     sockets      = optional(number, 1),
-    memory       = optional(number, 2048),
+    memory       = optional(number, 4096),
     storage_type = optional(string, "scsi"),
     storage_id   = optional(string, "local-lvm"),
     disk_size    = optional(string, "20G"),
-    vm_start_id  = optional(string, "120")
-    user         = optional(string, "cluster"),
+    vm_start_id  = optional(string, "230")
+    user         = optional(string, "nomad"),
     network_tag  = optional(number, -1),
 
     template = optional(string),

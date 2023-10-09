@@ -56,7 +56,8 @@ resource "proxmox_vm_qemu" "k3s-worker" {
 
   agent = 0
   onboot = var.onboot
-
+  scsihw = "virtio-scsi-pci"
+  
   disk {
     type    = each.value.storage_type
     storage = each.value.storage_id

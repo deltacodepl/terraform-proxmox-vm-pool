@@ -33,9 +33,10 @@ resource "proxmox_vm_qemu" "k3s-master" {
   sockets = local.master_node_settings.sockets
   memory  = local.master_node_settings.memory
 
-  agent = 1
+  agent = 0
   onboot = var.onboot
-
+  scsihw = "virtio-scsi-pci"
+  
   disk {
     type    = local.master_node_settings.storage_type
     storage = local.master_node_settings.storage_id
