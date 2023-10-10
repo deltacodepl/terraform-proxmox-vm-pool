@@ -4,5 +4,5 @@ hashicorp_product_selection:
   - nomad
   - vault
 
-hashicorp_datacenter_name: "velp"
+hashicorp_datacenter_name: "nat1"
 token_directory: "~/hashi-tokens"

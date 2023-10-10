@@ -17,6 +17,7 @@
         patterns: "vault-nomad-*"
         file_type: "file"
       delegate_to: localhost
+      become: false
       run_once: true
       register: vault_files
 

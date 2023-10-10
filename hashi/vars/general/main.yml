@@ -1,5 +1,5 @@
 ---
-atcomputing_user: "atcomputing"
+atcomputing_user: "nomad"
 docker_users:
   - "{{ atcomputing_user }}"
 
@@ -17,6 +17,6 @@ basic_apt_packages:
   - unattended-upgrades
   - vim
 
-timezone: "Europe/Amsterdam"
+timezone: "Europe/Warsaw"
 
 demo_fqdn: "demo.atcomputing.local"
