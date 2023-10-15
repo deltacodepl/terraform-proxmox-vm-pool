@@ -1,6 +1,6 @@
 ---
 nomad_demo_job_remote_location: "/opt/nomad/demo-jobs"
-nomad_demo_job_local_location: "/opt/nomad/demo-jobs"
+nomad_demo_job_local_location: "/home/ko/nomad/demo-jobs"
 
 traefik_demo_template_location: "templates/hashicorp/nomad/demo-jobs/traefik.nomad.j2"
 traefik_demo_docker_image: "traefik:v2.6.1"

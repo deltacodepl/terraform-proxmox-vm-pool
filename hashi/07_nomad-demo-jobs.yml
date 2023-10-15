@@ -38,6 +38,7 @@
       run_once: true
       tags: demo-fqdn
 
+    # first server block
     - name: "HashiCorp - Nomad - Jobs : Deployment."
       block:
         - name: "HashiCorp - Nomad - Jobs : Ensure job directory is present on the first server."
@@ -48,12 +49,13 @@
             recurse: true
 
         - name: "HashiCorp - Nomad - Jobs : Ensure job directory is present on this client."
-          become: true
+          become: false
           ansible.builtin.file:
             path: "{{ nomad_demo_job_local_location }}"
             state: directory
             mode: "0777"
           delegate_to: localhost
+          # delegate_to: "{{ groups['clients'] | first }}"
 
         - name: "HashiCorp - Nomad - Jobs : Ensure demo jobs are templated and in place."
           ansible.builtin.template:
@@ -70,16 +72,16 @@
             flat: yes
           with_items: "{{ nomad_demo_job_names }}"
 
-        - name: "HashiCorp - Nomad : Ensure demo jobs are running."
-          community.general.nomad_job:
-            host: localhost
-            use_ssl: false
-            state: present
-            token: "{{ nomad_operator_token.stdout }}"
-            content: "{{ lookup('file', item.destination) }}"
-            timeout: 60
-            force_start: true
-          with_items: "{{ nomad_demo_job_names }}"
+        # - name: "HashiCorp - Nomad : Ensure demo jobs are running."
+        #   community.general.nomad_job:
+        #     host: localhost
+        #     use_ssl: false
+        #     state: present
+        #     token: "{{ nomad_operator_token.stdout }}"
+        #     content: "{{ lookup('file', item.destination) }}"
+        #     timeout: 60
+        #     force_start: true
+        #   with_items: "{{ nomad_demo_job_names }}"
       when:
         - ansible_hostname in groups['servers']
       delegate_to: "{{ groups['servers'] | first }}"
